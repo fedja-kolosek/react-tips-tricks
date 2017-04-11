@@ -2,7 +2,8 @@
 A summary of React patterns, best practices, tips, tricks, style, etc...
 
 ## React Stateless Functional Components (React 0.14 or newer)
-[Tutorial](https://hackernoon.com/react-stateless-functional-components-nine-wins-you-might-have-overlooked-997b0d933dbc)  
+### [Tutorial](https://hackernoon.com/react-stateless-functional-components-nine-wins-you-might-have-overlooked-997b0d933dbc)  
+
 * **No Class Needed**  
 Plain functions are generally preferable, and eliminating the class related cruft like extends and the constructor in the example above are a nice win.
 * **No** `this` **Keyword**  
@@ -14,13 +15,13 @@ Plain functions are generally preferable, and eliminating the class related cruf
 [<img src="https://cdn-images-1.medium.com/max/1000/1*zyaxLgvQHfgaDjMoP90XAw.png">](https://hackernoon.com/react-stateless-functional-components-nine-wins-you-might-have-overlooked-997b0d933dbc)
 
 ## PropTypes
-[Official Page](https://facebook.github.io/react/docs/typechecking-with-proptypes.html)  
-[Tutorial](https://developer.fortnox.se/blog/proptypes-in-react-js/)
+### [Official Page](https://facebook.github.io/react/docs/typechecking-with-proptypes.html)  
+### [Tutorial](https://developer.fortnox.se/blog/proptypes-in-react-js/)
+
+In short, PropTypes are just for helping the developer understand the component easier, and help debug it when there is a  prop type mismatch.
 
 * You can easily open up a component and check which props are required and what type they should be.
 * When things get messed up React will give you an awesome error message in the console, saying which props is wrong/missing plus the render method that caused the problem.
-
-In short, PropTypes are just for helping the developer understand the component easier, and help debug it when there is a  prop type mismatch.
 
 **Example:** 
 ```
@@ -37,9 +38,9 @@ In this example we can see that the component should receive two props. One shou
 > "Container components are components that are aware of Redux" - the internet  
 > "Fat and Skinny, Smart and Dumb, Stateful and Pure, Screens and Components, etc" - [Dan Abramov](https://twitter.com/dan_abramov)    
 
-[Official Redux page](http://redux.js.org/docs/basics/UsageWithReact.html#presentational-and-container-components)    
-[Tutorial](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0) by [Dan Abramov](https://twitter.com/dan_abramov)  
-[Tutorial](http://www.thegreatcodeadventure.com/the-react-plus-redux-container-pattern/)  
+### [Official Redux page](http://redux.js.org/docs/basics/UsageWithReact.html#presentational-and-container-components)    
+### [Tutorial](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0) by [Dan Abramov](https://twitter.com/dan_abramov)  
+### [Tutorial](http://www.thegreatcodeadventure.com/the-react-plus-redux-container-pattern/)  
 
 React bindings for Redux embrace the idea of separating presentational and container components. You’ll find your components much easier to reuse and reason about if you divide them into (these) two categories. This approach also makes it easier to write stateless presentational components, and it also simplifies testing of a component.
 
@@ -56,7 +57,7 @@ React bindings for Redux embrace the idea of separating presentational and conta
 // homeContainer.js
 import { connect } from 'react-redux'
 import { someAction } from './actions'
-import Main from './main'
+import Home from './home'
 
 const mapStateToProps = state => ({
   data: state.main.data,
@@ -69,7 +70,7 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Main)
+)(Home) // Home is wrapped in it's container and exported as such
 
 ```
 We can see in this code snippet that the `Main` component is wrapped in it's own container. This container will be imported instead of the `Home` component (in Routes, other components, etc...) with: `import Home from 'homeContainer'`.
@@ -80,8 +81,8 @@ Components that are wrapped in a container will receive everything from the cont
 ## Linting
 > "Linting is the process of running a program that will analyse code for potential errors"
 
-[Official ESlint](http://eslint.org/)  
-[Tutorial](https://raygun.com/blog/using-linters-for-faster-safer-coding-with-less-javascript-errors/)  
+### [ESlint official page](http://eslint.org/)  
+### [Tutorial](https://raygun.com/blog/using-linters-for-faster-safer-coding-with-less-javascript-errors/)  
 
 #### What is a linter?  
 Linters have been around for a long time and probably exist in one shape or form for all languages. A linter is basically a parser that parses your code and looks for mistakes. It’s a great way to save time, maintain quality and write safer code. You can plug linters in to your code editor or copy-past your code to a linting tool. Lint-ing your code is a great thing to do no matter what language you code with. You can even lint HTML, CSS and JSON. There are many different types, but here I will focus on the four most popular Javascript linters.
@@ -101,26 +102,77 @@ Example of common folder structure:
 
 **`Common`**
 * `Helpers` (Contains functions, this folder is also named `utils`)  
-`moneyHelper.js`  
-`dateHelper.js`  
-`someLogicHelper.js`
+`-> moneyHelper.js`  
+`-> dateHelper.js`  
+`-> someLogicHelper.js`
 * `Components` (Contains components that are reused accros the app, (e.g., headers, buttons, etc...)  
-`nextButton.jsx`  
-`navHeader.jsx`  
-`basicInfo.jsx`
+`-> nextButton.jsx`  
+`-> navHeader.jsx`  
+`-> basicInfo.jsx`
 
 This organizing pattern helps test functions, reduce redundant code and bugs
 
 [//]: # (-------------------------------------------------------------------------------)
 
-## Selectors
+## Selectors (Improving React and Redux performance with Reselect)
 
-[Reselect](https://github.com/reactjs/reselect)  
-[Reselect tutorial](http://blog.rangle.io/react-and-redux-performance-with-reselect/)
+> We define selectors as the functions that **retrieve snippets of the Redux state** for our React components
+
+### [Reselect GitHub](https://github.com/reactjs/reselect)
+### [Reselect tutorial](http://blog.rangle.io/react-and-redux-performance-with-reselect/)
+
+* Selectors can compute derived data, allowing Redux to store the minimal possible state.
+* Selectors are efficient. A selector is not recomputed unless one of its arguments change.
+* Selectors are composable. They can be used as input to other selectors.
+
+If you are using React Redux, you can call selectors as regular functions inside mapStateToProps()
+
+```
+import { createSelector } from 'reselect'
+
+const shopItemsSelector = state => state.shop.items
+const taxPercentSelector = state => state.shop.taxPercent
+
+const subtotalSelector = createSelector(
+  shopItemsSelector,
+  items => items.reduce((acc, item) => acc + item.value, 0)
+)
+
+const taxSelector = createSelector(
+  subtotalSelector,
+  taxPercentSelector,
+  (subtotal, taxPercent) => subtotal * (taxPercent / 100)
+)
+
+export const totalSelector = createSelector(
+  subtotalSelector,
+  taxSelector,
+  (subtotal, tax) => ({ total: subtotal + tax })
+)
+
+let exampleState = {
+  shop: {
+    taxPercent: 8,
+    items: [
+      { name: 'apple', value: 1.20 },
+      { name: 'orange', value: 0.95 },
+    ]
+  }
+}
+
+console.log(subtotalSelector(exampleState)) // 2.15
+console.log(taxSelector(exampleState))      // 0.172
+console.log(totalSelector(exampleState))    // { total: 2.322 }
+```
 
 [//]: # (-------------------------------------------------------------------------------)
 
 ## Normalizr
+
+> Many APIs, return JSON data that has deeply nested objects. Using data in this kind of structure is often very difficult for JavaScript applications, especially those using Flux or Redux.
+
+[Normalizr GitHub](https://github.com/paularmstrong/normalizr)
+
 
 [//]: # (-------------------------------------------------------------------------------)
 
@@ -132,6 +184,15 @@ This organizing pattern helps test functions, reduce redundant code and bugs
 
 [//]: # (-------------------------------------------------------------------------------)
 
+## GraphQL
+
+[//]: # (-------------------------------------------------------------------------------)
+
+## Redux form
+
+[//]: # (-------------------------------------------------------------------------------)
+
+___
 ### Miscellaneous:
 [Egghead tutorial by Dan Abramov](https://egghead.io/courses/building-react-applications-with-idiomatic-redux) - Great tutorial that covers many aspects of this text  
 

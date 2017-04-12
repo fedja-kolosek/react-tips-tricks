@@ -5,7 +5,7 @@ A summary of React patterns, best practices, tips, tricks, style, etc...
 ### [Tutorial](https://hackernoon.com/react-stateless-functional-components-nine-wins-you-might-have-overlooked-997b0d933dbc)  
 
 * **No Class Needed**  
-Plain functions are generally preferable, and eliminating the class related cruft like extends and the constructor in the example above are a nice win.
+Plain functions are generally preferable, and eliminating the class related cruft like extends and the constructor in the example below are a nice win.
 * **No** `this` **Keyword**  
 `<a>onClick={this.sayHi.bind(this)}>Say Hi</a>`  
 `<a>onClick={sayHi}>Say Hi</a>`  
@@ -125,7 +125,16 @@ This organizing pattern helps test functions, reduce redundant code and bugs
 * Selectors are efficient. A selector is not recomputed unless one of its arguments change.
 * Selectors are composable. They can be used as input to other selectors.
 
-If you are using React Redux, you can call selectors as regular functions inside mapStateToProps()
+One of the more expensive operations that React can perform is the rendering cycle. When a component detects a change in input, the render cycle is triggered. Sometimes a component will have to perform calculations based on the it's input, in order to render the resulting values. Usually this shouldn't be an issue, but these calculations can become very costly, and impact performance. This is where selectors come to help. These costly operations can be written as a selector that will supply the subscribed components with the needed values, thus eliminating the logic from the component.
+
+We define selectors as the functions that retrieve snippets of the Redux state for our React components. Using memoization, we can prevent unnecessary rerenders and recalculations of derived data which in turn will speed up our application. With memoized selectors, if the state tree is large, we don’t have to worry about expensive calculations being performed every time the state changes. We can also add additional flexibility to our frontend by breaking these out into individual components.
+
+This is a powerful concept as it allows us to completely optimize which components should be rerendered, and when their derived state should be recalculated.  
+
+Making these optimizations early in your application means less work in the future when you need to correct performance problems. One of the major benefits of moving our selectors out of our components means that we can easily test these derived data calculations just as we would any other JavaScript function. We simply mock our Redux state and then check for the expected output based on the state provided.
+
+
+[<img src="http://blog.rangle.io/content/images/2016/06/image03-1.png">](http://blog.rangle.io/react-and-redux-performance-with-reselect/)
 
 ```
 import { createSelector } from 'reselect'
@@ -165,30 +174,44 @@ console.log(taxSelector(exampleState))      // 0.172
 console.log(totalSelector(exampleState))    // { total: 2.322 }
 ```
 
+If you are using React Redux, you can call selectors as regular functions inside mapStateToProps()
+
 [//]: # (-------------------------------------------------------------------------------)
 
 ## Normalizr
 
 > Many APIs, return JSON data that has deeply nested objects. Using data in this kind of structure is often very difficult for JavaScript applications, especially those using Flux or Redux.
 
-[Normalizr GitHub](https://github.com/paularmstrong/normalizr)
+### [Normalizr GitHub](https://github.com/paularmstrong/normalizr)  
+### [Normalizr with redux - tutorial](https://medium.com/farmdrop/using-normalizr-js-in-a-redux-store-96ab33991369)
 
 
 [//]: # (-------------------------------------------------------------------------------)
 
 ## Immutable
 
+> *Shared mutable state is the root of all evil* - Pete Hunt, React.js Conf 2015
+
 [//]: # (-------------------------------------------------------------------------------)
 
 ## Testing
+
+> First and foremost, start every feature with an end-to-end test. An end-to-end test is basically a test from the user’s perspective (click here, wait, confirm this text is displayed, etc.) The go-to library for end-to-end tests is [Selenium](http://www.seleniumhq.org/).
+
+### [Jest official page](https://facebook.github.io/jest/)
 
 [//]: # (-------------------------------------------------------------------------------)
 
 ## GraphQL
 
+### [Zero to GraphQL in 30 Minutes](https://www.youtube.com/watch?v=UBGzsb2UkeY)  
+
 [//]: # (-------------------------------------------------------------------------------)
 
-## Redux form
+## Redux form (v6 or newer)
+
+### [Redux-form official page](http://redux-form.com/)
+### [Redux-form GitHub](https://github.com/erikras/redux-form)
 
 [//]: # (-------------------------------------------------------------------------------)
 

@@ -133,7 +133,6 @@ This is a powerful concept as it allows us to completely optimize which componen
 
 Making these optimizations early in your application means less work in the future when you need to correct performance problems. One of the major benefits of moving our selectors out of our components means that we can easily test these derived data calculations just as we would any other JavaScript function. We simply mock our Redux state and then check for the expected output based on the state provided.
 
-
 [<img src="http://blog.rangle.io/content/images/2016/06/image03-1.png">](http://blog.rangle.io/react-and-redux-performance-with-reselect/)
 
 ```
@@ -185,12 +184,40 @@ If you are using React Redux, you can call selectors as regular functions inside
 ### [Normalizr GitHub](https://github.com/paularmstrong/normalizr)  
 ### [Normalizr with redux - tutorial](https://medium.com/farmdrop/using-normalizr-js-in-a-redux-store-96ab33991369)
 
+```
+import { normalize, schema } from 'normalizr';
+
+// Define a users schema
+const user = new schema.Entity('users');
+
+// Define your comments schema
+const comment = new schema.Entity('comments', {
+  commenter: user
+});
+
+// Define your article 
+const article = new schema.Entity('articles', { 
+  author: user,
+  comments: [ comment ]
+});
+
+const normalizedData = normalize(originalData, article);
+
+```
 
 [//]: # (-------------------------------------------------------------------------------)
 
 ## Immutable
 
 > *Shared mutable state is the root of all evil* - Pete Hunt, React.js Conf 2015
+
+### [Immutable.js GitHub](https://github.com/facebook/immutable-js/)
+
+* **Immutable**: once created, a collection cannot be altered at another point in time.
+* **Persistent**: new collections can be created from a previous collection and a mutation such as set. The original collection is still valid after the new collection is created.
+* **Structural Sharing**: new collections are created using as much of the same structure as the original collection as possible, reducing copying to a minimum to improve performance.
+
+Immutability makes tracking changes cheap. A change will always result in a new object so we only need to check if the reference to the object has changed
 
 [//]: # (-------------------------------------------------------------------------------)
 
@@ -214,6 +241,11 @@ If you are using React Redux, you can call selectors as regular functions inside
 ### [Redux-form GitHub](https://github.com/erikras/redux-form)
 
 [//]: # (-------------------------------------------------------------------------------)
+
+## Functional programming in JS
+
+### [Learning Functional Programming with JavaScript](https://www.youtube.com/watch?v=e-5obm1G_FY)
+### [Lodash FP](https://github.com/lodash/lodash/wiki/FP-Guide)
 
 ___
 ### Miscellaneous:

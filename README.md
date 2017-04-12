@@ -212,6 +212,7 @@ const normalizedData = normalize(originalData, article);
 > *Shared mutable state is the root of all evil* - Pete Hunt, React.js Conf 2015
 
 ### [Immutable.js GitHub](https://github.com/facebook/immutable-js/)
+### [Using Immutable Data Structures - Facebook](https://facebook.github.io/react/docs/optimizing-performance.html#using-immutable-data-structures)
 
 * **Immutable**: once created, a collection cannot be altered at another point in time.
 * **Persistent**: new collections can be created from a previous collection and a mutation such as set. The original collection is still valid after the new collection is created.
@@ -232,6 +233,8 @@ Immutability makes tracking changes cheap. A change will always result in a new 
 ## GraphQL
 
 ### [Zero to GraphQL in 30 Minutes](https://www.youtube.com/watch?v=UBGzsb2UkeY)  
+### [Apollo client GitHub page](https://github.com/apollographql/apollo-client)
+### [React Apollo GitHub page](https://github.com/apollographql/react-apollo)
 
 [//]: # (-------------------------------------------------------------------------------)
 
@@ -249,7 +252,7 @@ Immutability makes tracking changes cheap. A change will always result in a new 
 
 ___
 ### Miscellaneous:
-[Egghead tutorial by Dan Abramov](https://egghead.io/courses/building-react-applications-with-idiomatic-redux) - Great tutorial that covers many aspects of this text  
+[Idiomatic redux tutorial](https://egghead.io/courses/building-react-applications-with-idiomatic-redux) - Great tutorial on [Egghead](https://egghead.io/) by [Dan Abramov](https://twitter.com/dan_abramov) that covers many aspects of this text  
 
 Version **0.1**  
 Initial version written by *Feđa* @ [Kolosek](https://kolosek.com/)  
